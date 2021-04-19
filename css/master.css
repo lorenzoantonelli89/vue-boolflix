@@ -5,7 +5,91 @@
     box-sizing: border-box;
 }
 
+body{
+    height: 100vh;
+    background-color: #000;
+}
+
+/* regole generali */
+#app{
+    background-color: #000;
+}
+
+.lighter{
+    font-weight: lighter;
+}
+
+/* regole header */
+header{
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+}
+
+header>h2{
+    color: red;
+}
+
+header>input{
+    height: 30%;
+    outline: none;
+}
+
+/* regole main */
+main{
+    padding: 0 30px;
+}
+.container-film-serietv{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.container-film-serietv>li{
+    margin-top: 50px;
+    list-style: none;
+}
+
+.container-info-film-serie{
+    position: relative;
+}
+
+.container-info-film-serie>img{
+    border: 1px solid #fff;
+}
+
+.info-hidden{
+    display: none;
+    height: 100%;
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 50px 10px 0 10px;
+}
+
+.container-film-serietv>li:hover .info-hidden{
+    display: block;
+}
+
+.info-hidden>div{
+    margin-bottom: 20px;
+}
 
 .flag>img{
     width: 20px;
 }
+
+.vote{
+    display: flex;
+}
+
+.vote>.fas.fa-star{
+    color: yellow;
+}
+

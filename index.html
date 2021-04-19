@@ -21,35 +21,100 @@
 <body>
     <div id="app">
         <header>
+            <h2>
+                BOOLFLIX
+            </h2>
             <input type="text" placeholder="Cerca un film..." v-model="searchBar" @keyup.enter="clickSearchBar">
         </header>
         <main>
             <div>
-                <ul>
+                <ul class="container-film-serietv">
                     <li v-for="film in films">
-                        <img :src="'https://image.tmdb.org/t/p/w342' + film.poster_path" alt="">
-                        <div>
-                            {{film.title}}
-                            {{film.original_title}}
-                        </div>
-                        <div class="flag" v-html="flag(film.original_language)">
-                        </div>
-                        <div v-html="vote(film.vote_average)">
+                        <div class="container-info-film-serie">
+                            <img :src="'https://image.tmdb.org/t/p/w342' + film.poster_path" alt="">
+                            <div class="info-hidden">
+                                <div class="title">
+                                    <div>
+                                        <strong>
+                                            Title:
+                                        </strong>
+                                        <span class="lighter">
+                                            {{film.title}}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            Original Title:
+                                        </strong>
+                                        <span class="lighter">
+                                            {{film.original_title}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flag" v-html="flag(film.original_language)">
+                                </div>
+                                <div class="vote">
+                                    <strong>
+                                        Vote:
+                                    </strong>
+                                    <i class="fas fa-star" v-for="elem in vote(film.vote_average)"></i>
+                                    <i class="far fa-star" v-for="elem in (5 - vote(film.vote_average))"></i>
+                                </div>
+                                <div class="description">
+                                    <div>
+                                        <strong>
+                                            Overview:
+                                        </strong>
+                                        <span class="lighter">
+                                            {{film.overview}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </li>
                     <li v-for="tvserie in tvSeries">
-                        {{tvserie.title}}
-                        {{tvserie.original_title}}
-                    </li>
-                    <li v-for="tvserie in tvSeries">
-                        <img :src="'https://image.tmdb.org/t/p/w342' + tvserie.poster_path" alt="">
-                        <div>
-                            {{tvserie.name}}
-                            {{tvserie.original_name}}
-                        </div>
-                        <div class="flag" v-html="flag(tvserie.original_language)">
-                        </div>
-                        <div v-html="vote(tvserie.vote_average)">
+                        <div class="container-info-film-serie">
+                            <img :src="'https://image.tmdb.org/t/p/w342' + tvserie.poster_path" alt="">
+                            <div class="info-hidden">
+                                <div class="title">
+                                    <div>
+                                        <strong>
+                                            Title:
+                                        </strong>
+                                        <span class="lighter">
+                                            {{tvserie.title}}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            Original Title:
+                                        </strong>
+                                        <span class="lighter">
+                                            {{tvserie.original_title}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flag" v-html="flag(tvserie.original_language)">
+                                </div>
+                                <div class="vote">
+                                    <strong>
+                                        Vote:
+                                    </strong>
+                                    <i class="fas fa-star" v-for="elem in vote(tvserie.vote_average)"></i>
+                                    <i class="far fa-star" v-for="elem in (5 - vote(tvserie.vote_average))"></i>
+                                </div>
+                                <div class="description">
+                                    <div>
+                                        <strong>
+                                            Overview:
+                                        </strong>
+                                        <span class="lighter">
+                                            {{tvserie.overview}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </li>
                 </ul>
