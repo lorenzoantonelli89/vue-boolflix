@@ -29,11 +29,21 @@
         <main>
             <div>
                 <ul class="container-film-serietv">
-                    <li v-for="film in films">
+                    <li v-for="film in films" v-if="(!film.poster_path == '')">
                         <div class="container-info-film-serie">
                             <img :src="'https://image.tmdb.org/t/p/w342' + film.poster_path" alt="">
                             <div class="info-hidden">
-                                <div class="title">
+                                <div class="title" v-if="(film.name === film.original_name)">
+                                    <div>
+                                        <strong>
+                                            Title:
+                                        </strong>
+                                        <span class="lighter">
+                                            {{film.title}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="title" v-else>
                                     <div>
                                         <strong>
                                             Title:
@@ -73,17 +83,27 @@
                             </div>
                         </div>
                     </li>
-                    <li v-for="tvserie in tvSeries">
+                    <li v-for="tvserie in tvSeries" v-if="(!tvserie.poster_path == '')">
                         <div class="container-info-film-serie">
                             <img :src="'https://image.tmdb.org/t/p/w342' + tvserie.poster_path" alt="">
                             <div class="info-hidden">
-                                <div class="title">
+                                <div class="title" v-if="(tvserie.name === tvserie.original_name)">
                                     <div>
                                         <strong>
                                             Title:
                                         </strong>
                                         <span class="lighter">
-                                            {{tvserie.title}}
+                                            {{tvserie.name}}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="title" v-else>
+                                    <div>
+                                        <strong>
+                                            Title:
+                                        </strong>
+                                        <span class="lighter">
+                                            {{tvserie.name}}
                                         </span>
                                     </div>
                                     <div>
@@ -91,7 +111,7 @@
                                             Original Title:
                                         </strong>
                                         <span class="lighter">
-                                            {{tvserie.original_title}}
+                                            {{tvserie.original_name}}
                                         </span>
                                     </div>
                                 </div>

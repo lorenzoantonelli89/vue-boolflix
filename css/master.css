@@ -29,7 +29,7 @@ header{
 }
 
 header>h2{
-    color: red;
+    color: #ae1000;
 }
 
 header>input{
@@ -43,21 +43,27 @@ main{
 }
 .container-film-serietv{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
 .container-film-serietv>li{
+    height: 515px;
+    flex-basis: calc(100% / 5 - 20px);
     margin-top: 50px;
+    margin-right: 20px;
     list-style: none;
 }
 
 .container-info-film-serie{
     position: relative;
+    height: 100%;
 }
 
 .container-info-film-serie>img{
     border: 1px solid #fff;
+    height: 515px;
+    width: 352px;
 }
 
 .info-hidden{
@@ -81,6 +87,10 @@ main{
     margin-bottom: 20px;
 }
 
+.info-hidden strong{
+    padding-right: 6px;
+}
+
 .flag>img{
     width: 20px;
 }
@@ -90,6 +100,6 @@ main{
 }
 
 .vote>.fas.fa-star{
-    color: yellow;
+    color: #fec500;
 }
 

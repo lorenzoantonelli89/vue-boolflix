@@ -43,13 +43,10 @@ function initVue() {
                 }
             },
             vote: function (val) {
-                const vote = Math.ceil(val / 2);
-                return vote;
+                return Math.ceil(val / 2);
             }
         },
-        // computed: {
-           
-        // }
+        
     });
 }
 
