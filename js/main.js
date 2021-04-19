@@ -4,19 +4,20 @@ function initVue() {
         data: {
             'searchBar': '',
             'films': [],
+            'tvSeries': [],
         },
         // mounted() {
-        //     axios
-        //         .get('https://api.themoviedb.org/3/search/movie', {
-        //             params: {
-        //                 'api_key': '1d2078d15fa15a94192ff189b968ed1f',
-        //                 'query': this.searchBar
-        //             }
+        //     import axios from 'axios';
+        //     const films = 'https://api.themoviedb.org/3/search/movie?api_key=1d2078d15fa15a94192ff189b968ed1f&query=suburra';
+        //     const tvSeries = 'https://api.themoviedb.org/3/search/tv?api_key=1d2078d15fa15a94192ff189b968ed1f&language=it_IT&query=suburra';
+        //     const requestFilm = axios.get(films);
+        //     const requestTvSeries = axios.get(tvSeries);
+        //     axios.all([requestFilm, requestTvSeries]).then(data => {
+        //         this.films = data.data.results;
+        //     })
+        //         .catch(error => {
+        //             console.err(error)
         //         })
-        //         .then(data => {
-        //             console.log(data.data.results);
-        //             // this.arr.push(data.data.results)
-        //         });
         // },
         methods: {
             clickSearchBar: function() {
@@ -28,10 +29,22 @@ function initVue() {
                         }
                     })
                     .then(data => {
-                        console.log(data.data.results);
                         this.films = data.data.results;
-                        console.log(this.films);
-                    });
+                    })
+                axios
+                    .get('https://api.themoviedb.org/3/search/tv', {
+                        params: {
+                            'api_key': '1d2078d15fa15a94192ff189b968ed1f',
+                            'query': this.searchBar
+                        }
+                    })
+                    .then(data => {
+                        this.tvSeries = data.data.results;
+                        console.log(this.tvSeries);
+                    })
+                    .catch(error => {
+                        console.err(error)
+                    })
             },
             flag: function (language) {
                 if (language == 'en') {
@@ -39,9 +52,16 @@ function initVue() {
                 }else if (language == 'it'){
                     return '<img src="img/flag-it.png" alt="bandiera-inglese">';
                 }else{
-                   return '<h3>other</h3>';
+                   return '<h3>' + language +'</h3>';
                 }
+            },
+            vote: function (val) {
+                const vote = (val * 5) / 10;
+                console.log(vote);
+
+                return '<h3>' + vote + '</h3>';
             }
+
         },
         // computed: {
            

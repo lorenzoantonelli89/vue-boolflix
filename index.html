@@ -22,21 +22,31 @@
         <main>
             <div>
                 <ul>
-                    <li v-for="(film, index) in films">
-                        {{film.title}}
-                        {{film.original_title}}
-                        <div v-html="flag(film.original_language)">
+                    <li v-for="film in films">
+                        <img :src="'https://image.tmdb.org/t/p/w342' + film.poster_path" alt="">
+                        <div>
+                            {{film.title}}
+                            {{film.original_title}}
                         </div>
-                        <!-- <div v-if="(film.original_language == 'en')">
-                            english
+                        <div class="flag" v-html="flag(film.original_language)">
                         </div>
-                        <div v-else-if="(film.original_language == 'it')">
-                            italy
+                        <div v-html="vote(film.vote_average)">
                         </div>
-                        <div v-else>
-                            other
-                        </div> -->
-                        {{film.vote_average}}
+                    </li>
+                    <li v-for="tvserie in tvSeries">
+                        {{tvserie.title}}
+                        {{tvserie.original_title}}
+                    </li>
+                    <li v-for="tvserie in tvSeries">
+                        <img :src="'https://image.tmdb.org/t/p/w342' + tvserie.poster_path" alt="">
+                        <div>
+                            {{tvserie.name}}
+                            {{tvserie.original_name}}
+                        </div>
+                        <div class="flag" v-html="flag(tvserie.original_language)">
+                        </div>
+                        <div v-html="vote(tvserie.vote_average)">
+                        </div>
                     </li>
                 </ul>
             </div>
