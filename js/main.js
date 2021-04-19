@@ -56,10 +56,18 @@ function initVue() {
                 }
             },
             vote: function (val) {
-                const vote = (val * 5) / 10;
-                console.log(vote);
-
-                return '<h3>' + vote + '</h3>';
+                const vote = Math.floor((val * 5) / 10);
+                if (vote == 1) {
+                    return '<i class="fas fa-star"></i>' + '<i class="far fa-star"></i>' + '<i class="far fa-star"></i>' + '<i class="far fa-star"></i>' + '<i class="far fa-star"></i>'
+                }else if (vote == 2) {
+                    return '<i class="fas fa-star"></i>' + '<i class="fas fa-star"></i>' + '<i class="far fa-star"></i>' + '<i class="far fa-star"></i>' + '<i class="far fa-star"></i>'
+                }else if (vote == 3) {
+                    return '<i class="fas fa-star"></i>' + '<i class="fas fa-star"></i>' + '<i class="fas fa-star"></i>' + '<i class="far fa-star"></i>' + '<i class="far fa-star"></i>'
+                }else if (vote == 4) {
+                    return '<i class="fas fa-star"></i>' + '<i class="fas fa-star"></i>' + '<i class="fas fa-star"></i>' + '<i class="fas fa-star"></i>' + '<i class="far fa-star"></i>'
+                }else{
+                    return '<i class="fas fa-star"></i>' + '<i class="fas fa-star"></i>' + '<i class="fas fa-star"></i>' + '<i class="fas fa-star"></i>' + '<i class="fas fa-star"></i>'
+                }
             }
 
         },
