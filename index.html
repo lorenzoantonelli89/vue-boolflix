@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- link vueJs -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!-- axio vuejs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    <!-- link my js -->
+    <script src="js/main.js"></script>
+    <!-- link my css -->
+    <link rel="stylesheet" href="css/master.css">
+    <title>BoolFix</title>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <input type="text" placeholder="Cerca un film..." v-model="searchBar" @keyup.enter="clickSearchBar">
+        </header>
+        <main>
+            <div>
+                <ul>
+                    <li v-for="(film, index) in films">
+                        {{film.title}}
+                        {{film.original_title}}
+                        <div v-html="flag(film.original_language)">
+                        </div>
+                        <!-- <div v-if="(film.original_language == 'en')">
+                            english
+                        </div>
+                        <div v-else-if="(film.original_language == 'it')">
+                            italy
+                        </div>
+                        <div v-else>
+                            other
+                        </div> -->
+                        {{film.vote_average}}
+                    </li>
+                </ul>
+            </div>
+        </main>
+    </div>
+    
+</body>
+</html>
