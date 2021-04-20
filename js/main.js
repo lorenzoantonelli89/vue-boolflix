@@ -7,8 +7,10 @@ function initVue() {
             'tvSeries': [],
             'actorArray': [],
             'actorName': [],
-            'idMovie': 105,
+            'genresArray': [],
+            'genresName': [],
             'profile': false,
+            'displayAct': false,
             'users': [
                 {
                     img: 'img/goblin.png',
@@ -84,21 +86,6 @@ function initVue() {
                         .then(data => {
                             this.tvSeries = data.data.results;
                         })
-                        axios.get('https://api.themoviedb.org/3/movie/' + this.idMovie + '/credits', {
-                                params: {
-                                    'api_key': '1d2078d15fa15a94192ff189b968ed1f',
-                                    // 'append_to_response': 'credits'
-                                }
-                            })
-                            .then(data => {
-                                this.actorArray = data.data.cast;
-                                for(let i = 0; i < 5; i++){
-                                    if (!this.actorArray.includes(this.actorArray[i].name)) {
-                                        this.actorName.push(this.actorArray[i].name)
-                                    }
-                                }
-                                console.log(this.actorName);
-                            })
                         .catch(error => {
                             console.log(error)
                         })
@@ -106,6 +93,42 @@ function initVue() {
                     this.famousMovie();
                 }
                 
+            },
+            castVisible: function (idMovie) {
+                axios
+                    .get('https://api.themoviedb.org/3/movie/' + idMovie , {
+                        params: {
+                            'api_key': '1d2078d15fa15a94192ff189b968ed1f',
+                            'append_to_response': 'credits'
+                        }
+                    })
+                    .then(data => {
+                        this.actorArray = data.data.credits.cast;
+                        for (let i = 0; i < 5; i++) {
+                            if (!this.actorArray.includes(this.actorArray[i].name)) {
+                                this.actorName.push(this.actorArray[i].name)
+                            }
+                        }
+
+                        this.genresArray = data.data.genres;
+                        console.log(this.genresArray);
+                        for (let i = 0; i < this.genresArray.length; i++) {
+                            if (!this.genresArray.includes(this.genresArray[i].name)) {
+                                this.genresName.push(this.genresArray[i].name)
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+                    this.displayAct = !this.displayAct;
+                    this.actorName.splice(0, 5);
+                    this.genresName.splice(0, 5);
+            },
+            cleanUp: function () {
+                this.actorName.splice(0, 5);
+                this.genresName.splice(0, 5);
+                this.displayAct = false;
             },
             backHome: function () {
                 this.searchBar = '';

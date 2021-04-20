@@ -64,6 +64,13 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
+}
+
+#profiles>img{
+    position: absolute;
+    top: 10px;
+    left: 15px;
 }
 
 #profiles>h1{
@@ -156,5 +163,37 @@ main{
 
 .vote>.fas.fa-star{
     color: #fec500;
+}
+
+.container-info-film-serie .fas.fa-chevron-circle-down{
+    color: #fff;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.container-list-info{
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.actor-list, .genre-list{
+    list-style: none;
+}
+
+.titleActorGenre{
+    color: #fff;
+    display: none;
+}
+
+.info-name-genre{
+    color: #fff;
+}
+
+.titleActorGenre.active{
+    display: block;
+}
+
+.info-name-genre.none{
+    display: none;
 }
 
