@@ -24,7 +24,10 @@
             <h2>
                 BOOLFLIX
             </h2>
-            <input type="text" placeholder="Cerca un film..." v-model="searchBar" @keyup.enter="clickSearchBar">
+            <div class="content-search">
+                <input type="text" placeholder="Cerca un film..." v-model="searchBar" @keyup.enter="clickSearchBar">
+                <i class="fas fa-times" @click="backHome"></i>
+            </div>
         </header>
         <main>
             <div>

@@ -5,33 +5,88 @@ function initVue() {
             'searchBar': '',
             'films': [],
             'tvSeries': [],
+            'actorArray': [],
+            'actorName': [],
+            'idMovie': 105,
+        },
+        mounted() {
+            this.famousMovie();
         },
         methods: {
-            clickSearchBar: function() {
-                axios
-                    .get('https://api.themoviedb.org/3/search/movie', {
-                        params: {
-                            'api_key': '1d2078d15fa15a94192ff189b968ed1f',
-                            'query': this.searchBar
-                        }
-                    })
+            famousMovie: function (params) {
+                axios.get('https://api.themoviedb.org/3/movie/popular', {
+                    params: {
+                        'api_key': '1d2078d15fa15a94192ff189b968ed1f',
+                        'page': '1'
+                    }
+                })
                     .then(data => {
                         this.films = data.data.results;
                     })
-                axios
-                    .get('https://api.themoviedb.org/3/search/tv', {
-                        params: {
-                            'api_key': '1d2078d15fa15a94192ff189b968ed1f',
-                            'query': this.searchBar
-                        }
+                    .catch(error => {
+                        console.log(error)
                     })
+                axios.get('https://api.themoviedb.org/3/tv/popular', {
+                    params: {
+                        'api_key': '1d2078d15fa15a94192ff189b968ed1f',
+                        'page': '1'
+                    }
+                })
                     .then(data => {
                         this.tvSeries = data.data.results;
                     })
                     .catch(error => {
-                        console.err(error)
+                        console.log(error)
                     })
-                    this.searchBar = '';
+            },
+            clickSearchBar: function() {
+                if (this.searchBar) {
+                    axios
+                        .get('https://api.themoviedb.org/3/search/movie', {
+                            params: {
+                                'api_key': '1d2078d15fa15a94192ff189b968ed1f',
+                                'query': this.searchBar
+                            }
+                        })
+                        .then(data => {
+                            this.films = data.data.results;
+                        })
+                    axios
+                        .get('https://api.themoviedb.org/3/search/tv', {
+                            params: {
+                                'api_key': '1d2078d15fa15a94192ff189b968ed1f',
+                                'query': this.searchBar
+                            }
+                        })
+                        .then(data => {
+                            this.tvSeries = data.data.results;
+                        })
+                        // axios.get('https://api.themoviedb.org/3/movie/' + this.idMovie + '/credits', {
+                        //         params: {
+                        //             'api_key': '1d2078d15fa15a94192ff189b968ed1f',
+                        //             // 'append_to_response': 'credits'
+                        //         }
+                        //     })
+                        //     .then(data => {
+                        //         this.actorArray = data.data.cast;
+                        //         for(let i = 0; i < 5; i++){
+                        //             if (!this.actorArray.includes(this.actorArray[i].name)) {
+                        //                 this.actorName.push(this.actorArray[i].name)
+                        //             }
+                        //         }
+                        //         console.log(this.actorName);
+                        //     })
+                        .catch(error => {
+                            console.log(error)
+                        })
+                }else{
+                    this.famousMovie();
+                }
+                
+            },
+            backHome: function () {
+                this.searchBar = '';
+                this.famousMovie();
             },
             flag: function (language) {
                 if (language == 'en') {
@@ -44,7 +99,8 @@ function initVue() {
             },
             vote: function (val) {
                 return Math.ceil(val / 2);
-            }
+            },
+           
         },
         
     });
