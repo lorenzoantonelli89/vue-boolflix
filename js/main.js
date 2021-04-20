@@ -8,6 +8,29 @@ function initVue() {
             'actorArray': [],
             'actorName': [],
             'idMovie': 105,
+            'profile': false,
+            'users': [
+                {
+                    img: 'img/goblin.png',
+                    userName: 'Jumbotron',
+                },
+                {
+                    img: 'img/among.png',
+                    userName: 'Gioele',
+                },
+                {
+                    img: 'img/android.png',
+                    userName: 'Martino',
+                },
+                {
+                    img: 'img/cyberpunk.png',
+                    userName: 'Alessandro',
+                },
+                {
+                    img: 'img/nuclear.png',
+                    userName: 'Together',
+                },
+            ]
         },
         mounted() {
             this.famousMovie();
@@ -61,21 +84,21 @@ function initVue() {
                         .then(data => {
                             this.tvSeries = data.data.results;
                         })
-                        // axios.get('https://api.themoviedb.org/3/movie/' + this.idMovie + '/credits', {
-                        //         params: {
-                        //             'api_key': '1d2078d15fa15a94192ff189b968ed1f',
-                        //             // 'append_to_response': 'credits'
-                        //         }
-                        //     })
-                        //     .then(data => {
-                        //         this.actorArray = data.data.cast;
-                        //         for(let i = 0; i < 5; i++){
-                        //             if (!this.actorArray.includes(this.actorArray[i].name)) {
-                        //                 this.actorName.push(this.actorArray[i].name)
-                        //             }
-                        //         }
-                        //         console.log(this.actorName);
-                        //     })
+                        axios.get('https://api.themoviedb.org/3/movie/' + this.idMovie + '/credits', {
+                                params: {
+                                    'api_key': '1d2078d15fa15a94192ff189b968ed1f',
+                                    // 'append_to_response': 'credits'
+                                }
+                            })
+                            .then(data => {
+                                this.actorArray = data.data.cast;
+                                for(let i = 0; i < 5; i++){
+                                    if (!this.actorArray.includes(this.actorArray[i].name)) {
+                                        this.actorName.push(this.actorArray[i].name)
+                                    }
+                                }
+                                console.log(this.actorName);
+                            })
                         .catch(error => {
                             console.log(error)
                         })
@@ -100,6 +123,9 @@ function initVue() {
             vote: function (val) {
                 return Math.ceil(val / 2);
             },
+            userOn: function () {
+                this.profile = !this.profile
+            }
            
         },
         
