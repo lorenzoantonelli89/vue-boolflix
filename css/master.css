@@ -128,6 +128,7 @@ main{
     width: 352px;
 }
 
+/* regole div a comparsa su hover */
 .info-hidden{
     display: none;
     height: 100%;
@@ -165,6 +166,11 @@ main{
     color: #fec500;
 }
 
+.description{
+    max-height: 120px;
+    overflow-y: auto;
+}
+
 .container-info-film-serie .fas.fa-chevron-circle-down{
     color: #fff;
     cursor: pointer;
@@ -172,7 +178,7 @@ main{
 }
 
 .container-list-info{
-    max-height: 180px;
+    max-height: 160px;
     overflow-y: auto;
 }
 

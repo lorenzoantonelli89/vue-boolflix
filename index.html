@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- link font awsome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -19,7 +20,9 @@
     <title>BoolFix</title>
 </head>
 <body>
+    <!-- container totale -->
     <div id="app">
+        <!-- container prima pagina che scompare al click user -->
         <div id="profiles" v-if="(profile == false)">
             <img src="img/logo.png" alt="">
             <h1>
@@ -32,9 +35,16 @@
                 </li>
             </ul>
         </div>
+        <!-- container pagina dopo click user -->
         <div v-else>
             <header>
                 <img src="img/logo.png" alt="">
+                <!-- <select name="changeGenre" v-model="selectGenre">
+                    <option selected value>All</option>
+                    <option value="">12</option>
+                    <option value="">35</option>
+                    <option value="">878</option>
+                </select> -->
                 <div class="content-search">
                     <input type="text" placeholder="Cerca un film..." v-model="searchBar" @keyup.enter="clickSearchBar">
                     <i class="fas fa-times" @click="backHome"></i>
@@ -42,6 +52,7 @@
             </header>
             <main>
                 <ul class="container-film-serietv">
+                    <!-- lista film -->
                     <li v-for="film in films" v-if="(!film.poster_path == '')" @mouseleave="cleanUp">
                         <div class="container-info-film-serie">
                             <img :src="'https://image.tmdb.org/t/p/w342' + film.poster_path" alt="">
@@ -78,6 +89,7 @@
                                     <strong>
                                         Vote:
                                     </strong>
+                                    <!-- assegno le stelle in base al voto -->
                                     <i class="fas fa-star" v-for="elem in vote(film.vote_average)"></i>
                                     <i class="far fa-star" v-for="elem in (5 - vote(film.vote_average))"></i>
                                 </div>
@@ -89,7 +101,11 @@
                                         {{film.overview}}
                                     </span>
                                 </div>
-                                <i class="fas fa-chevron-circle-down" @click="castVisible(film.id)" ></i>
+                                <i class="fas fa-chevron-circle-down" @click="castVisible(film.id)">
+                                    <span>
+                                        More Informations
+                                    </span>
+                                </i>
                                 <div class="container-list-info">
                                     <ul class="actor-list">
                                         <li class="titleActorGenre" :class="(displayAct == true) ? 'active' : ''">
@@ -98,7 +114,7 @@
                                             </h2>
                                         </li>
                                         <li v-for="actor in actorName" class="info-name-genre" :class="(displayAct == false) ? 'none' : ''">
-                                            {{actor}}
+                                            {{actor.name}}
                                         </li>
                                     </ul>
                                     <ul class="genre-list">
@@ -108,13 +124,14 @@
                                             </h2>
                                         </li>
                                         <li v-for="genre in genresName" class="info-name-genre" :class="(displayAct == false) ? 'none' : ''">
-                                            {{genre}}
+                                            {{genre.name}}
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </li>
+                    <!-- lista serie tv -->
                     <li v-for="tvserie in tvSeries" v-if="(!tvserie.poster_path == '')" @mouseleave="cleanUp">
                         <div class="container-info-film-serie">
                             <img :src="'https://image.tmdb.org/t/p/w342' + tvserie.poster_path" alt="">
@@ -162,7 +179,11 @@
                                         {{tvserie.overview}}
                                     </span>
                                 </div>
-                                <i class="fas fa-chevron-circle-down" @click="castVisible(tvserie.id)"></i>
+                                <i class="fas fa-chevron-circle-down" @click="castVisible(tvserie.id)">
+                                    <span>
+                                        More Informations
+                                    </span>
+                                </i>
                                 <div class="container-list-info">
                                     <ul class="actor-list">
                                         <li class="titleActorGenre" :class="(displayAct == true) ? 'active' : ''">
@@ -171,7 +192,7 @@
                                             </h2>
                                         </li>
                                         <li v-for="actor in actorName" class="info-name-genre" :class="(displayAct == false) ? 'none' : ''">
-                                            {{actor}}
+                                            {{actor.name}}
                                         </li>
                                     </ul>
                                     <ul class="genre-list">
@@ -181,7 +202,7 @@
                                             </h2>
                                         </li>
                                         <li v-for="genre in genresName" class="info-name-genre" :class="(displayAct == false) ? 'none' : ''">
-                                            {{genre}}
+                                            {{genre.name}}
                                         </li>
                                     </ul>
                                 </div>
