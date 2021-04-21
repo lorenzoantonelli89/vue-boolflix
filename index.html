@@ -38,10 +38,10 @@
         <!-- container pagina dopo click user -->
         <div v-else>
             <header>
-                <img src="img/logo.png" alt="" >
+                <img src="img/logo.png" alt="" @click="test">
                 <select name="changeGenre" v-model="selectGenre">
                     <option selected value>All</option>
-                    <option v-for="elem in arrAllGenres" :value="elem.id"> {{elem.name}} </option>
+                    <option v-for="elem in filteredGenre" :value="elem.id"> {{elem.name}} </option>
                 </select>
                 <div id="container-button-right">
                     <i class="fas fa-search"  @click="showSearchbar"></i>

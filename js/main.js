@@ -7,6 +7,7 @@ function initVue() {
             'films': [],
             'tvSeries': [],
             'actorName': [],
+            'genresId': [],
             'genresName': [],
             'selectGenre': '',
             'profile': false,
@@ -39,6 +40,7 @@ function initVue() {
             'arrGenresMovie': [],
             'arrGenresSerieTv': [],
             'arrAllGenres': [],
+            'videos': [],
         },
         mounted() {
             // monto la funzione che mi riporta i film popolari e i generi
@@ -61,9 +63,9 @@ function initVue() {
                         }
                     }
                 })
-                .catch(error => {
-                    console.log(error)
-                })
+                // .catch(error => {
+                //     // console.log(error)
+                // })
             axios
                 .get('https://api.themoviedb.org/3/genre/tv/list', {
                     params: {
@@ -82,9 +84,9 @@ function initVue() {
                         }
                     }
                 })
-                .catch(error => {
-                    console.log(error)
-                })
+                // .catch(error => {
+                //     // console.log(error)
+                // })
         },
         methods: {
             // funzione per prendere i film popolari con l'api sia film che serie tv
@@ -98,9 +100,9 @@ function initVue() {
                     .then(data => {
                         this.films = data.data.results;
                     })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                    // .catch(error => {
+                    //     // console.log(error)
+                    // })
                 axios.get('https://api.themoviedb.org/3/tv/popular', {
                     params: {
                         'api_key': this.apiKey,
@@ -110,9 +112,9 @@ function initVue() {
                     .then(data => {
                         this.tvSeries = data.data.results;
                     })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                    // .catch(error => {
+                    //     // console.log(error)
+                    // })
             },
             clickSearchBar: function () {
                 // funzione che trova i film e le serie tv in base al nome scritto nella searchbar
@@ -138,9 +140,9 @@ function initVue() {
                         .then(data => {
                             this.tvSeries = data.data.results;
                         })
-                        .catch(error => {
-                            console.log(error)
-                        })
+                        // .catch(error => {
+                        //     // console.log(error)
+                        // })
                 } else {//altrimenti mi riporta i titoli più popolari
                     this.famousMovie();
                 }
@@ -170,9 +172,9 @@ function initVue() {
                         this.actorName = data.data.credits.cast.splice(0, 5);//inserisco nell'array direttamente 5 elementi da api
                         this.genresName = data.data.genres;//inserisco nell'array direttamente 5 elementi da api
                     })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                    // .catch(error => {
+                    //     // console.log(error)
+                    // })
                 this.displayAct = !this.displayAct; // nascondo e faccio apparire la chevron
                 this.actorName.splice(0, 5); //ripulisco array attori al click
                 this.genresName = []; // ripulisco array generi al click
@@ -205,6 +207,10 @@ function initVue() {
             changeUser: function (user) {
                 this.activeUser = user;
             },
+            test: function () {
+                console.log(this.filteredGenre);
+                // console.log(this.arrAllGenres);
+            }
         },
         computed: {
             filteredFilm: function () {
@@ -220,6 +226,51 @@ function initVue() {
                     return this.selectGenre ? elem.genre_ids.includes(parseInt(this.selectGenre)) : elem;
                 });
             },
+            filteredGenre: function () {
+                const genresActive = [];
+
+                for (let i = 0; i < this.films.length; i++) {
+                    let elemI = this.films[i];
+                    for (let x = 0; x < this.arrAllGenres.length; x++) {
+                        let elemX = this.arrAllGenres[x];
+                        if (parseInt(elemI.genre_ids) === parseInt(elemX.id) && !genresActive.includes(elemX)) {
+                            genresActive.push(elemX);
+                            // if (!genresActive.includes(elemX)) {
+                            //     genresActive.push(elemX);
+                            // }
+                        }
+                    }
+                }
+
+                for (let i = 0; i < this.tvSeries.length; i++) {
+                    let elemI = this.tvSeries[i];
+                    for (let x = 0; x < this.arrAllGenres.length; x++) {
+                        let elemX = this.arrAllGenres[x];
+                        if (parseInt(elemI.genre_ids) === parseInt(elemX.id) && !genresActive.includes(elemX)) {
+                            genresActive.push(elemX);
+                            // if (!genresActive.includes(elemX)) {
+                            //     genresActive.push(elemX);
+                            // }
+                        }
+                    }
+                }
+
+                // for (let x = 0; x < this.arrAllGenres.length; x++) {
+                //     let elemX = this.arrAllGenres[x];
+                //     for (let i = 0; i < this.films.length; i++) {
+                //         let elemI = this.films[i];
+                //         if (parseInt(elemI.genre_ids) == parseInt(elemX.id) && !genresActive.includes(elemX)) {
+                //             genresActive.push(elemX);
+                //             // if (!genresActive.includes(elemX)) {
+                //             //     genresActive.push(elemX);
+                //             // }
+                //         }
+                //     }
+                    
+                // }
+
+                return genresActive;
+            }
         },
 
     });
