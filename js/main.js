@@ -36,10 +36,55 @@ function initVue() {
             'activeUser': null,
             'dropDown': false,
             'contentSearch': false,
+            'arrGenresMovie': [],
+            'arrGenresSerieTv': [],
+            'arrAllGenres': [],
         },
         mounted() {
-            // monto la funzione che mi riporta i film popolari
+            // monto la funzione che mi riporta i film popolari e i generi
             this.famousMovie();
+            axios
+                .get('https://api.themoviedb.org/3/genre/movie/list', {
+                    params: {
+                        'api_key': this.apiKey,
+                    }
+                })
+                .then(data => {
+                    this.arrGenresMovie = data.data.genres;
+                    // ciclo con condizione per popolare array generale generi 
+                    for (let i = 0; i < this.arrGenresMovie.length; i++) {
+                        let elem = this.arrGenresMovie[i];
+                        let id = elem.id;
+                        let name = elem.name
+                        if (!this.arrAllGenres.includes(id) && !this.arrAllGenres.includes(name)) {
+                            this.arrAllGenres.push({ id, name });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            axios
+                .get('https://api.themoviedb.org/3/genre/tv/list', {
+                    params: {
+                        'api_key': this.apiKey,
+                    }
+                })
+                .then(data => {
+                    this.arrGenresSerieTv = data.data.genres;
+                    // ciclo con condizione per popolare array generale generi 
+                    for (let i = 0; i < this.arrGenresSerieTv.length; i++) {
+                        let elem = this.arrGenresSerieTv[i];
+                        let id = elem.id;
+                        let name = elem.name
+                        if (!this.arrAllGenres.includes(id) && !this.arrAllGenres.includes(name)) {
+                            this.arrAllGenres.push({ id, name });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         },
         methods: {
             // funzione per prendere i film popolari con l'api sia film che serie tv
@@ -140,6 +185,7 @@ function initVue() {
             backHome: function () {
                 // cliccando sulla cross ritorno la schermata principale e pulisco la search
                 this.searchBar = '';
+                this.contentSearch = false;
                 this.famousMovie();
             },
             vote: function (val) {
@@ -159,19 +205,21 @@ function initVue() {
             changeUser: function (user) {
                 this.activeUser = user;
             },
-            test: function () {
-                console.log(this.films);
-
-            }
-
         },
         computed: {
             filteredFilm: function () {
+                // filtro i film per genere
                 return this.films.filter(elem => {
-                    return elem.genre_ids.includes(this.selectGenre);
+                    return this.selectGenre ? elem.genre_ids.includes(parseInt(this.selectGenre)) : elem;
+                });
+           
+            },
+            filteredSerieTv: function () {
+                // filtro le serie tv per genere
+                return this.tvSeries.filter(elem => {
+                    return this.selectGenre ? elem.genre_ids.includes(parseInt(this.selectGenre)) : elem;
                 });
             },
-
         },
 
     });

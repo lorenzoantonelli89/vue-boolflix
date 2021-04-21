@@ -38,13 +38,11 @@
         <!-- container pagina dopo click user -->
         <div v-else>
             <header>
-                <img src="img/logo.png" alt="" @click="test">
-                <!-- <select name="changeGenre" v-model="selectGenre">
+                <img src="img/logo.png" alt="" >
+                <select name="changeGenre" v-model="selectGenre">
                     <option selected value>All</option>
-                    <option value="">12</option>
-                    <option value="">35</option>
-                    <option value="">878</option>
-                </select> -->
+                    <option v-for="elem in arrAllGenres" :value="elem.id"> {{elem.name}} </option>
+                </select>
                 <div id="container-button-right">
                     <i class="fas fa-search"  @click="showSearchbar"></i>
                     <div id="container-search" :class="(contentSearch == true) ? 'active' : '' ">
@@ -70,7 +68,7 @@
             <main>
                 <ul class="container-film-serietv">
                     <!-- lista film -->
-                    <li v-for="film in films" v-if="(!film.poster_path == '')" @mouseleave="cleanUp">
+                    <li v-for="film in filteredFilm" v-if="(!film.poster_path == '')" @mouseleave="cleanUp">
                         <div class="container-info-film-serie">
                             <img :src="'https://image.tmdb.org/t/p/w342' + film.poster_path" alt="">
                             <div class="info-hidden">
@@ -151,7 +149,7 @@
                         </div>
                     </li>
                     <!-- lista serie tv -->
-                    <li v-for="tvserie in tvSeries" v-if="(!tvserie.poster_path == '')" @mouseleave="cleanUp">
+                    <li v-for="tvserie in filteredSerieTv" v-if="(!tvserie.poster_path == '')" @mouseleave="cleanUp">
                         <div class="container-info-film-serie">
                             <img :src="'https://image.tmdb.org/t/p/w342' + tvserie.poster_path" alt="">
                             <div class="info-hidden">

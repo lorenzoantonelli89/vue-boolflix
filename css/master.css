@@ -101,7 +101,6 @@ header>h2{
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: 2s;
 }
 
 .content-search>i{
