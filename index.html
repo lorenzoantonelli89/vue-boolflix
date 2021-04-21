@@ -17,7 +17,7 @@
     <script src="js/main.js"></script>
     <!-- link my css -->
     <link rel="stylesheet" href="css/master.css">
-    <title>BoolFix</title>
+    <title>BoolFlix</title>
 </head>
 <body>
     <!-- container totale -->
@@ -29,7 +29,7 @@
                 Chi vuole guardare Netflix?
             </h1>
             <ul>
-                <li v-for="user in users" @click="userOn">
+                <li v-for="user in users" @click="userOn(user)">
                     <img :src="user.img" alt="">
                     <h4>{{user.userName}}</h4>
                 </li>
@@ -38,16 +38,33 @@
         <!-- container pagina dopo click user -->
         <div v-else>
             <header>
-                <img src="img/logo.png" alt="">
+                <img src="img/logo.png" alt="" @click="test">
                 <!-- <select name="changeGenre" v-model="selectGenre">
                     <option selected value>All</option>
                     <option value="">12</option>
                     <option value="">35</option>
                     <option value="">878</option>
                 </select> -->
-                <div class="content-search">
-                    <input type="text" placeholder="Cerca un film..." v-model="searchBar" @keyup.enter="clickSearchBar">
-                    <i class="fas fa-times" @click="backHome"></i>
+                <div id="container-button-right">
+                    <i class="fas fa-search"  @click="showSearchbar"></i>
+                    <div id="container-search" :class="(contentSearch == true) ? 'active' : '' ">
+                        <div class="content-search">
+                            <input type="text" placeholder="Cerca un film..." v-model="searchBar" @keyup.enter="clickSearchBar">
+                            <i class="fas fa-times" @click="backHome"></i>
+                        </div>
+                    </div>
+                    <i class="fas fa-bell"></i>
+                    <img :src="activeUser.img" alt="">
+                    <i class="fas fa-sort-down" @click="showDropdown">
+                        <ul id="user-block-dropdown" :class="(dropDown == true) ? 'active' : ''" @mouseleave="showDropdown">
+                            <li class="user-list" v-for="user in users" @click="changeUser(user)">
+                                <img :src="user.img" alt="">
+                                <span>
+                                    {{user.userName}}
+                                </span>
+                            </li>
+                        </ul>
+                    </i>
                 </div>
             </header>
             <main>
@@ -83,7 +100,9 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="flag" v-html="flag(film.original_language)">
+                                <div class="flag">
+                                    <strong>Language:</strong>
+                                    <img :src="'img/flag-' + film.original_language + '.png'" alt="">
                                 </div>
                                 <div class="vote">
                                     <strong>
@@ -162,7 +181,9 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="flag" v-html="flag(tvserie.original_language)">
+                                <div class="flag">
+                                    <strong>Language:</strong>
+                                    <img :src="'img/flag-' + tvserie.original_language + '.png'" alt="">
                                 </div>
                                 <div class="vote">
                                     <strong>
