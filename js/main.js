@@ -39,8 +39,6 @@ function initVue() {
             'contentSearch': false,
             'arrGenresMovie': [],
             'arrGenresSerieTv': [],
-            'arrAllGenres': [],
-            'videos': [],
         },
         mounted() {
             // monto la funzione che mi riporta i film popolari e i generi
@@ -53,19 +51,10 @@ function initVue() {
                 })
                 .then(data => {
                     this.arrGenresMovie = data.data.genres;
-                    // ciclo con condizione per popolare array generale generi 
-                    for (let i = 0; i < this.arrGenresMovie.length; i++) {
-                        let elem = this.arrGenresMovie[i];
-                        let id = elem.id;
-                        let name = elem.name
-                        if (!this.arrAllGenres.includes(id) && !this.arrAllGenres.includes(name)) {
-                            this.arrAllGenres.push({ id, name });
-                        }
-                    }
                 })
-                // .catch(error => {
-                //     // console.log(error)
-                // })
+                .catch(error => {
+                    console.log(error)
+                })
             axios
                 .get('https://api.themoviedb.org/3/genre/tv/list', {
                     params: {
@@ -74,19 +63,10 @@ function initVue() {
                 })
                 .then(data => {
                     this.arrGenresSerieTv = data.data.genres;
-                    // ciclo con condizione per popolare array generale generi 
-                    for (let i = 0; i < this.arrGenresSerieTv.length; i++) {
-                        let elem = this.arrGenresSerieTv[i];
-                        let id = elem.id;
-                        let name = elem.name
-                        if (!this.arrAllGenres.includes(id) && !this.arrAllGenres.includes(name)) {
-                            this.arrAllGenres.push({ id, name });
-                        }
-                    }
                 })
-                // .catch(error => {
-                //     // console.log(error)
-                // })
+                .catch(error => {
+                    console.log(error)
+                })
         },
         methods: {
             // funzione per prendere i film popolari con l'api sia film che serie tv
@@ -100,9 +80,9 @@ function initVue() {
                     .then(data => {
                         this.films = data.data.results;
                     })
-                    // .catch(error => {
-                    //     // console.log(error)
-                    // })
+                    .catch(error => {
+                        console.log(error)
+                    })
                 axios.get('https://api.themoviedb.org/3/tv/popular', {
                     params: {
                         'api_key': this.apiKey,
@@ -112,9 +92,9 @@ function initVue() {
                     .then(data => {
                         this.tvSeries = data.data.results;
                     })
-                    // .catch(error => {
-                    //     // console.log(error)
-                    // })
+                    .catch(error => {
+                        console.log(error)
+                    })
             },
             clickSearchBar: function () {
                 // funzione che trova i film e le serie tv in base al nome scritto nella searchbar
@@ -140,9 +120,9 @@ function initVue() {
                         .then(data => {
                             this.tvSeries = data.data.results;
                         })
-                        // .catch(error => {
-                        //     // console.log(error)
-                        // })
+                        .catch(error => {
+                            console.log(error)
+                        })
                 } else {//altrimenti mi riporta i titoli più popolari
                     this.famousMovie();
                 }
@@ -172,9 +152,9 @@ function initVue() {
                         this.actorName = data.data.credits.cast.splice(0, 5);//inserisco nell'array direttamente 5 elementi da api
                         this.genresName = data.data.genres;//inserisco nell'array direttamente 5 elementi da api
                     })
-                    // .catch(error => {
-                    //     // console.log(error)
-                    // })
+                    .catch(error => {
+                        console.log(error)
+                    })
                 this.displayAct = !this.displayAct; // nascondo e faccio apparire la chevron
                 this.actorName.splice(0, 5); //ripulisco array attori al click
                 this.genresName = []; // ripulisco array generi al click
@@ -199,18 +179,17 @@ function initVue() {
                 this.activeUser = user;
             },
             showSearchbar: function () {
+                // rende visibile e invisibile la searchbar
                 this.contentSearch = !this.contentSearch;
             },
             showDropdown: function () {
+                // rende visibile e invisibile il dropdown con i vari user
                 this.dropDown = !this.dropDown;
             },
             changeUser: function (user) {
+                // prendo user attivo
                 this.activeUser = user;
             },
-            test: function () {
-                console.log(this.filteredGenre);
-                // console.log(this.arrAllGenres);
-            }
         },
         computed: {
             filteredFilm: function () {
@@ -226,47 +205,42 @@ function initVue() {
                     return this.selectGenre ? elem.genre_ids.includes(parseInt(this.selectGenre)) : elem;
                 });
             },
+            createAllGenres: function () {
+                //  funzione con cui mi creo array generi totali
+                const genres = [...this.arrGenresMovie];
+                for(let i = 0; i < this.arrGenresSerieTv.length; i++){
+                    let elem = this.arrGenresSerieTv[i];
+                    // nella condizione diciamo che se non trova elementi con lo stesso id li pusha dentro array genres cosi non avrò doppioni di generi
+                    // tra film e serie tv
+                   if (!genres.find(item => item.id === elem.id) ) {
+                       genres.push(elem);
+                   }
+                }
+                return genres;
+            },
             filteredGenre: function () {
-                const genresActive = [];
+                // funzione per filtrare array generi con i vari generi presenti in pagina
+                const genresTot = [...this.films, ...this.tvSeries];
 
-                for (let i = 0; i < this.films.length; i++) {
-                    let elemI = this.films[i];
-                    for (let x = 0; x < this.arrAllGenres.length; x++) {
-                        let elemX = this.arrAllGenres[x];
-                        if (parseInt(elemI.genre_ids) === parseInt(elemX.id) && !genresActive.includes(elemX)) {
-                            genresActive.push(elemX);
-                            // if (!genresActive.includes(elemX)) {
-                            //     genresActive.push(elemX);
-                            // }
-                        }
-                    }
-                }
+                // flatmap serve a mappare e crea a differenza del solo map un array schiacciato in un solo array anziche un array con dentro altri array
+                const genresItemID = genresTot.flatMap(item => {
+                    return item.genre_ids;
+                });
+                // filtro array di generi totali usando filter e li confronto con ogni singolo elemento id dell'array precedentemente mappato
+                const genresActive = this.createAllGenres.filter(elem => {
+                    return genresItemID.includes(elem.id);
+                });
 
-                for (let i = 0; i < this.tvSeries.length; i++) {
-                    let elemI = this.tvSeries[i];
-                    for (let x = 0; x < this.arrAllGenres.length; x++) {
-                        let elemX = this.arrAllGenres[x];
-                        if (parseInt(elemI.genre_ids) === parseInt(elemX.id) && !genresActive.includes(elemX)) {
-                            genresActive.push(elemX);
-                            // if (!genresActive.includes(elemX)) {
-                            //     genresActive.push(elemX);
-                            // }
-                        }
-                    }
-                }
-
-                // for (let x = 0; x < this.arrAllGenres.length; x++) {
-                //     let elemX = this.arrAllGenres[x];
-                //     for (let i = 0; i < this.films.length; i++) {
-                //         let elemI = this.films[i];
-                //         if (parseInt(elemI.genre_ids) == parseInt(elemX.id) && !genresActive.includes(elemX)) {
+                // versione col mio ciclo annidato funziona ma è meno chiaro
+                // for (let i = 0; i < genresTot.length; i++) {
+                //     let elemI = genresTot[i];
+                //     for (let x = 0; x < this.createAllGenres.length; x++) {
+                //         let elemX = this.createAllGenres[x];
+                //         if (parseInt(elemI.genre_ids) === parseInt(elemX.id) && !genresActive.includes(elemX)) {
                 //             genresActive.push(elemX);
-                //             // if (!genresActive.includes(elemX)) {
-                //             //     genresActive.push(elemX);
-                //             // }
+                           
                 //         }
                 //     }
-                    
                 // }
 
                 return genresActive;

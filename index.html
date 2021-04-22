@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="icon" href="img/icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- link font google -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <!-- link font awsome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
@@ -38,9 +41,9 @@
         <!-- container pagina dopo click user -->
         <div v-else>
             <header>
-                <img src="img/logo.png" alt="" @click="test">
+                <img src="img/logo.png" alt="" >
                 <select name="changeGenre" v-model="selectGenre">
-                    <option selected value>All</option>
+                    <option selected value>All Genres</option>
                     <option v-for="elem in filteredGenre" :value="elem.id"> {{elem.name}} </option>
                 </select>
                 <div id="container-button-right">
@@ -68,52 +71,52 @@
             <main>
                 <ul class="container-film-serietv">
                     <!-- lista film -->
-                    <li v-for="film in filteredFilm" v-if="(!film.poster_path == '')" @mouseleave="cleanUp">
+                    <li v-for="film in filteredFilm" :class="(!film.poster_path == '') ? '' : 'none'" @mouseleave="cleanUp">
                         <div class="container-info-film-serie">
                             <img :src="'https://image.tmdb.org/t/p/w342' + film.poster_path" alt="">
                             <div class="info-hidden">
                                 <div class="title" v-if="(film.name === film.original_name)">
-                                    <strong>
+                                    <h3>
                                         Title:
-                                    </strong>
+                                    </h3>
                                     <span class="lighter">
                                         {{film.title}}
                                     </span>
                                 </div>
                                 <div class="title" v-else>
                                     <div>
-                                        <strong>
+                                        <h3>
                                             Title:
-                                        </strong>
+                                        </h3>
                                         <span class="lighter">
                                             {{film.title}}
                                         </span>
                                     </div>
                                     <div>
-                                        <strong>
+                                        <h3>
                                             Original Title:
-                                        </strong>
+                                        </h3>
                                         <span class="lighter">
                                             {{film.original_title}}
                                         </span>
                                     </div>
                                 </div>
                                 <div class="flag">
-                                    <strong>Language:</strong>
-                                    <img :src="'img/flag-' + film.original_language + '.png'" alt="">
+                                    <h3>Language:</h3>
+                                    <img :src="'img/flag-' + film.original_language + '.png'" alt="" >
                                 </div>
                                 <div class="vote">
-                                    <strong>
+                                    <h3>
                                         Vote:
-                                    </strong>
+                                    </h3>
                                     <!-- assegno le stelle in base al voto -->
                                     <i class="fas fa-star" v-for="elem in vote(film.vote_average)"></i>
                                     <i class="far fa-star" v-for="elem in (5 - vote(film.vote_average))"></i>
                                 </div>
                                 <div class="description">
-                                    <strong>
+                                    <h3>
                                         Overview:
-                                    </strong>
+                                    </h3>
                                     <span class="lighter">
                                         {{film.overview}}
                                     </span>
@@ -126,9 +129,9 @@
                                 <div class="container-list-info">
                                     <ul class="actor-list">
                                         <li class="titleActorGenre" :class="(displayAct == true) ? 'active' : ''">
-                                            <h2>
+                                            <h4>
                                                 Actors:
-                                            </h2>
+                                            </h4>
                                         </li>
                                         <li v-for="actor in actorName" class="info-name-genre" :class="(displayAct == false) ? 'none' : ''">
                                             {{actor.name}}
@@ -136,9 +139,9 @@
                                     </ul>
                                     <ul class="genre-list">
                                         <li class="titleActorGenre" :class="(displayAct == true) ? 'active' : ''">
-                                            <h2>
+                                            <h4>
                                                 Genres:
-                                            </h2>
+                                            </h4>
                                         </li>
                                         <li v-for="genre in genresName" class="info-name-genre" :class="(displayAct == false) ? 'none' : ''">
                                             {{genre.name}}
@@ -149,51 +152,51 @@
                         </div>
                     </li>
                     <!-- lista serie tv -->
-                    <li v-for="tvserie in filteredSerieTv" v-if="(!tvserie.poster_path == '')" @mouseleave="cleanUp">
+                    <li v-for="tvserie in filteredSerieTv" :class="(!tvserie.poster_path == '') ? '' : 'none'" @mouseleave="cleanUp">
                         <div class="container-info-film-serie">
                             <img :src="'https://image.tmdb.org/t/p/w342' + tvserie.poster_path" alt="">
                             <div class="info-hidden">
                                 <div class="title" v-if="(tvserie.name === tvserie.original_name)">
-                                    <strong>
+                                    <h3>
                                         Title:
-                                    </strong>
+                                    </h3>
                                     <span class="lighter">
                                         {{tvserie.name}}
                                     </span>
                                 </div>
                                 <div class="title" v-else>
                                     <div>
-                                        <strong>
+                                        <h3>
                                             Title:
-                                        </strong>
+                                        </h3>
                                         <span class="lighter">
                                             {{tvserie.name}}
                                         </span>
                                     </div>
                                     <div>
-                                        <strong>
+                                        <h3>
                                             Original Title:
-                                        </strong>
+                                        </h3>
                                         <span class="lighter">
                                             {{tvserie.original_name}}
                                         </span>
                                     </div>
                                 </div>
                                 <div class="flag">
-                                    <strong>Language:</strong>
-                                    <img :src="'img/flag-' + tvserie.original_language + '.png'" alt="">
+                                    <h3>Language:</h3>
+                                    <img :src="'img/flag-' + tvserie.original_language + '.png'" alt="" >
                                 </div>
                                 <div class="vote">
-                                    <strong>
+                                    <h3>
                                         Vote:
-                                    </strong>
+                                    </h3>
                                     <i class="fas fa-star" v-for="elem in vote(tvserie.vote_average)"></i>
                                     <i class="far fa-star" v-for="elem in (5 - vote(tvserie.vote_average))"></i>
                                 </div>
                                 <div class="description">
-                                    <strong>
+                                    <h3>
                                         Overview:
-                                    </strong>
+                                    </h3>
                                     <span class="lighter">
                                         {{tvserie.overview}}
                                     </span>
@@ -206,9 +209,9 @@
                                 <div class="container-list-info">
                                     <ul class="actor-list">
                                         <li class="titleActorGenre" :class="(displayAct == true) ? 'active' : ''">
-                                            <h2>
+                                            <h4>
                                                 Actors:
-                                            </h2>
+                                            </h4>
                                         </li>
                                         <li v-for="actor in actorName" class="info-name-genre" :class="(displayAct == false) ? 'none' : ''">
                                             {{actor.name}}
@@ -216,9 +219,9 @@
                                     </ul>
                                     <ul class="genre-list">
                                         <li class="titleActorGenre" :class="(displayAct == true) ? 'active' : ''">
-                                            <h2>
+                                            <h4>
                                                 Genres:
-                                            </h2>
+                                            </h4>
                                         </li>
                                         <li v-for="genre in genresName" class="info-name-genre" :class="(displayAct == false) ? 'none' : ''">
                                             {{genre.name}}

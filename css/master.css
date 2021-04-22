@@ -3,6 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Bebas Neue', cursive;
 }
 
 body{
@@ -17,6 +18,7 @@ body{
 
 .lighter{
     font-weight: lighter;
+    color: #d3d3d3;
 }
 
 /* regole header */
@@ -29,7 +31,19 @@ header{
     padding: 0 30px;
     position: fixed;
     z-index: 200;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+header>select{
     background-color: #000;
+    color: #fff;
+    border: none;
+    outline: none;
+    font-size: 18px;
+}
+
+header select option{
+    background: #000;
 }
 
 header>h2{
@@ -65,9 +79,10 @@ header>h2{
     right: 0;
     list-style: none;
     z-index: 100;
-    background-color: #000;
+    background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
     display: none;
+    border-radius: 8px;
 }
 
 #user-block-dropdown.active{
@@ -180,6 +195,10 @@ main{
     list-style: none;
 }
 
+.container-film-serietv>li.none{
+    display: none;
+}
+
 .container-info-film-serie{
     position: relative;
     height: 100%;
@@ -189,6 +208,7 @@ main{
     border: 1px solid #fff;
     height: 515px;
     width: 352px;
+    border-radius: 10px;
 }
 
 /* regole div a comparsa su hover */
@@ -196,13 +216,14 @@ main{
     display: none;
     height: 100%;
     width: 100%;
-    background-color: #000;
+    background-color: rgba(0, 0, 0, 0.9);
     color: #fff;
     border: 1px solid #fff;
     position: absolute;
     top: 0;
     left: 0;
-    padding: 50px 10px 0 10px;
+    padding: 15px 10px 0 10px;
+    border-radius: 10px;
 }
 
 .container-film-serietv>li:hover .info-hidden{
@@ -213,16 +234,23 @@ main{
     margin-bottom: 20px;
 }
 
-.info-hidden strong{
-    padding-right: 6px;
+.flag{
+    display: flex;
+    align-items: center;
 }
 
 .flag>img{
     width: 20px;
+    margin-left: 15px;
 }
 
 .vote{
     display: flex;
+    align-items: center;
+}
+
+.vote>h3{
+    margin-right: 15px;
 }
 
 .vote>.fas.fa-star{
@@ -238,6 +266,13 @@ main{
     color: #fff;
     cursor: pointer;
     font-size: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.container-info-film-serie .fas.fa-chevron-circle-down>span{
+    font-size: 15px;
+    margin-left: 15px;
 }
 
 .container-list-info{
@@ -255,7 +290,7 @@ main{
 }
 
 .info-name-genre{
-    color: #fff;
+    color: #d3d3d3;
 }
 
 .titleActorGenre.active{
